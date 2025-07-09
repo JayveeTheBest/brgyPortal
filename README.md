@@ -11,7 +11,6 @@
   <a href="https://www.mysql.com/"><img src="https://img.shields.io/badge/Database-MySQL-00758F?logo=mysql&logoColor=white" /></a>
   <img src="https://img.shields.io/github/languages/top/yourusername/brgyPortal" />
   <img src="https://img.shields.io/badge/Status-Active-brightgreen" />
-  <img src="https://img.shields.io/badge/License-MIT-blue" />
 </p>
 
 ---
