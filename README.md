@@ -28,21 +28,30 @@ The **Barangay Information Portal** is a streamlined admin dashboard for baranga
 
 ## 📁 Project Structure
 
-brgyPortal/
+<details>
+<summary>brgyPortal/</summary>
+  
+```
+├── adminpanel/ # Core Django app for admin functions (views, models, templates)
+│ ├── templates/ # HTML templates organized by module
+│ ├── static/ # App-specific CSS/JS files
+│ ├── forms.py # Forms for CRUD operations
+│ ├── models.py # Model definitions
+│ ├── urls.py # URL patterns for adminpanel
+│ └── views.py # Views for event, request, and dashboard logic
+├── brgyPortal/ # Django project configuration
+│ ├── settings.py # Project settings (DB, static files, middleware)
+│ ├── urls.py # Main project URL routing
+├── media/ # Uploaded user/media files
+├── static/ # Global static files (CSS, JS, logo)
+├── templates/ # Global templates (base.html, 404.html, etc.)
+├── db.sqlite3 # SQLite DB (use MySQL in production)
+├── requirements.txt # All dependencies needed to run the project
+├── README.md # Project documentation
+└── manage.py # Django CLI utility
 
-├── adminpanel/ # Core Django app
-
-├── templates/ # HTML templates
-
-├── static/ # CSS, JS, images
-
-├── media/ # Uploaded files
-
-├── requirements.txt # Dependencies
-
-├── manage.py # Django manager
-
-└── README.md
+```
+</details>
 
 ---
 
@@ -65,26 +74,39 @@ brgyPortal/
 ```bash
 git clone https://github.com/JayveeTheBest/brgyPortal.git
 cd brgyPortal
+```
 
 ### 2. 🐍 Create and activate a virtual environment
+```bash
 python -m venv venv
 venv\Scripts\activate   # Windows
 # or
 source venv/bin/activate  # Mac/Linux
+```
 
 ### 3. 📦 Install requirements
+```bash
 pip install -r requirements.txt
+```
 
 ### 4. 🗃️ Setup MySQL Database
+```bash
 CREATE DATABASE brgyportal CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+```
 
 ### 5. 🧱 Apply Migrations
+```bash
 python manage.py makemigrations
 python manage.py migrate
+```
 
 ### 6. 👤 Create Admin User
+```bash
 python manage.py createsuperuser
+```
 
 
 ### ▶️ Run the App
+```bash
 python manage.py runserver
+```
