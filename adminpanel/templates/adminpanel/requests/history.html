@@ -1,0 +1,83 @@
+{% extends 'adminpanel/base.html' %}
+{% block title %}Request History{% endblock %}
+
+{% block content %}
+<div class="container py-4">
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <h3>Request Archive (Delivered & Declined)</h3>
+    <div>
+      <a href="{% url 'request_list' %}" class="btn btn-outline-secondary">
+        <i class="bi bi-list-check"></i> Request List
+      </a>
+      <a href="{% url 'export_request_history_pdf' %}?q={{ query }}&start={{ start_date }}&end={{ end_date }}"
+         class="btn btn-outline-danger ms-2" target="_blank">
+        <i class="bi bi-file-earmark-pdf"></i> Export as PDF
+      </a>
+    </div>
+  </div>
+
+  <form method="get" class="row g-2 mb-3">
+    <div class="col-md-4">
+      <input type="text" name="q" class="form-control" placeholder="Search by name or type" value="{{ query }}">
+    </div>
+    <div class="col-md-3">
+      <input type="date" name="start" class="form-control" value="{{ start_date }}">
+    </div>
+    <div class="col-md-3">
+      <input type="date" name="end" class="form-control" value="{{ end_date }}">
+    </div>
+    <div class="col-md-1 d-grid">
+      <button type="submit" class="btn btn-outline-primary">Filter</button>
+    </div>
+    <div class="col-md-1 d-grid">
+      <a href="{% url 'request_history' %}" class="btn btn-outline-secondary">Clear</a>
+    </div>
+  </form>
+
+  <table class="table table-bordered table-striped table-sm align-middle">
+    <thead class="table-light">
+      <tr>
+        {% for col, label in header_columns %}
+        <th>
+          <a href="?q={{ query }}&start={{ start_date }}&end={{ end_date }}&sort={{ col }}&order={% if sort_field == col and sort_order == 'asc' %}desc{% else %}asc{% endif %}">
+            {{ label }}
+            {% if sort_field == col %}
+              {% if sort_order == 'asc' %}
+                <i class="bi bi-caret-up-fill small"></i>
+              {% else %}
+                <i class="bi bi-caret-down-fill small"></i>
+              {% endif %}
+            {% endif %}
+          </a>
+        </th>
+        {% endfor %}
+        <th>Pickup</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for req in archived_requests %}
+      <tr>
+        <td>{{ req.id }}</td>
+        <td>{{ req.last_name }}, {{ req.first_name }} {{ req.middle_name }}</td>
+        <td>{{ req.req_type }}</td>
+        <td>
+          {% if req.status == 'Delivered' %}
+            <span class="badge bg-primary">{{ req.status }}</span>
+          {% else %}
+            <span class="badge bg-danger">{{ req.status }}</span>
+          {% endif %}
+        </td>
+        <td>{{ req.date_submitted|date:"M d, Y H:i" }}</td>
+        <td>{{ req.date_released|date:"M d, Y H:i" }}</td>
+        <td>{{ req.contact_number }}</td>
+        <td>{{ req.pickup_method }}</td>
+      </tr>
+      {% empty %}
+      <tr>
+        <td colspan="8" class="text-center text-muted">No matching archived requests.</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock %}

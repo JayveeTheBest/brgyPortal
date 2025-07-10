@@ -1,0 +1,43 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+
+# Virtual environment
+venv/
+.venv/
+env/
+ENV/
+
+# Environment variables and secrets
+*.env
+.env.*
+
+# Static and media files (if collected or uploaded)
+staticfiles/
+media/
+
+# IDE and editor folders
+.vscode/
+.idea/
+
+# System files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Logs and debug files
+*.log
+
+# Coverage reports
+htmlcov/
+.coverage
+.cache
+.tox/
+nosetests.xml
+coverage.xml
+
+# Pytest
+.pytest_cache/
+
+# Compiled translations
+*.mo

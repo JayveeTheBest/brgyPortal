@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <style>
+    @page {
+      size: A4;
+      margin: 40px 30px;
+    }
+    body {
+      font-family: DejaVu Sans, sans-serif;
+      font-size: 11px;
+      color: #000;
+    }
+    .header {
+      text-align: center;
+      border-bottom: 2px solid #000;
+      padding-bottom: 10px;
+    }
+    .header img {
+      width: 60px;
+      float: left;
+    }
+    .header h2, .header h4 {
+      margin: 0;
+    }
+    .header h2 {
+      font-size: 16px;
+      font-weight: bold;
+    }
+    .header h4 {
+      font-size: 12px;
+    }
+    .filters {
+      margin-top: 20px;
+      font-size: 10px;
+    }
+    .filters strong {
+      display: inline-block;
+      width: 80px;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 15px;
+    }
+    th, td {
+      border: 1px solid #555;
+      padding: 6px 5px;
+      text-align: left;
+      vertical-align: top;
+    }
+    th {
+      background-color: #f2f2f2;
+      font-weight: bold;
+    }
+    .footer {
+      position: fixed;
+      bottom: -30px;
+      left: 0;
+      right: 0;
+      font-size: 10px;
+      text-align: center;
+      color: #555;
+    }
+    .page-number:before {
+      content: "Page " counter(page);
+    }
+  </style>
+</head>
+<body>
+
+  <div class="header clearfix">
+    <img src="adminpanel/static/logo/logo.png" alt="Barangay Logo">
+    <h2>Barangay Request History Report</h2>
+    <h4>Delivered & Declined Resident Requests</h4>
+  </div>
+
+  <div class="filters">
+    {% if filters.query or filters.start or filters.end %}
+      <p><strong>Filters Used:</strong></p>
+      {% if filters.query %}<p><strong>Search:</strong> "{{ filters.query }}"</p>{% endif %}
+      {% if filters.start and filters.end %}
+        <p><strong>Date Range:</strong> {{ filters.start }} to {{ filters.end }}</p>
+      {% endif %}
+    {% endif %}
+  </div>
+
+  <table>
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>Resident Name</th>
+        <th>Request Type</th>
+        <th>Status</th>
+        <th>Purpose</th>
+        <th>Submitted</th>
+        <th>Released</th>
+        <th>Contact</th>
+        <th>Pickup</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for req in requests %}
+      <tr>
+        <td>{{ req.id }}</td>
+        <td>{{ req.last_name }}, {{ req.first_name }} {{ req.middle_name }}</td>
+        <td>{{ req.req_type }}</td>
+        <td>{{ req.status }}</td>
+        <td>For: {{ req.purpose }}</td>
+        <td>
+          {% if req.date_submitted %}
+            {{ req.date_submitted|date:"M d, Y – h:i A" }}
+          {% else %}
+            N/A
+          {% endif %}
+        </td>
+        <td>
+          {% if req.date_released %}
+            {{ req.date_released|date:"M d, Y – h:i A" }}
+          {% else %}
+            —
+          {% endif %}
+        </td>
+        <td>{{ req.contact_number }}</td>
+        <td>{{ req.pickup_method }}</td>
+      </tr>
+      {% empty %}
+      <tr>
+        <td colspan="9" style="text-align: center; color: #888;">
+          No records found for selected filters.
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+
+  </table>
+
+  <div class="footer">
+    Printed on {{ printed_at|date:"F d, Y H:i A" }} · Barangay Information System — <span class="page-number"></span>
+  </div>
+
+</body>
+</html>

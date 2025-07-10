@@ -1,0 +1,71 @@
+{% extends 'adminpanel/base.html' %}
+{% block title %}New Resident Request{% endblock %}
+
+{% block content %}
+<div class="container py-4">
+    <h3 class="mb-4">Submit Resident Request</h3>
+
+    {% if messages %}
+        {% for message in messages %}
+            <div class="alert alert-success">{{ message }}</div>
+        {% endfor %}
+    {% endif %}
+
+    <form method="POST">
+        {% csrf_token %}
+
+        <!-- 🔹 Row 1: Name Fields -->
+        <div class="row mb-3">
+            <div class="col-md-4">
+                <label for="id_first_name" class="form-label">First Name</label>
+                {{ form.first_name }}
+            </div>
+            <div class="col-md-4">
+                <label for="id_middle_name" class="form-label">Middle Name</label>
+                {{ form.middle_name }}
+            </div>
+            <div class="col-md-4">
+                <label for="id_last_name" class="form-label">Last Name</label>
+                {{ form.last_name }}
+            </div>
+        </div>
+
+        <!-- 🔹 Row 2: Request Type -->
+        <div class="row mb-3">
+            <div class="col-md-12">
+                <label for="id_req_type" class="form-label">Type of Request</label>
+                {{ form.req_type }}
+            </div>
+        </div>
+
+        <!-- 🔹 Row 3: Purpose & Description -->
+        <div class="row mb-3">
+            <div class="col-md-6">
+                <label for="id_purpose" class="form-label">Purpose</label>
+                {{ form.purpose }}
+            </div>
+            <div class="col-md-6">
+                <label for="id_description" class="form-label">Additional Details</label>
+                {{ form.description }}
+            </div>
+        </div>
+
+        <!-- 🔹 Row 4: Pickup Method & Contact -->
+        <div class="row mb-3">
+            <div class="col-md-6">
+                <label for="id_pickup_method" class="form-label">Pickup Method</label>
+                {{ form.pickup_method }}
+            </div>
+            <div class="col-md-6">
+                <label for="id_contact_number" class="form-label">Contact Number</label>
+                {{ form.contact_number }}
+            </div>
+        </div>
+
+        <!-- 🔹 Submit Button -->
+        <div class="text-end">
+            <button type="submit" class="btn btn-primary">Submit Request</button>
+        </div>
+    </form>
+</div>
+{% endblock %}

@@ -1,0 +1,162 @@
+{% extends 'adminpanel/base.html' %}
+{% load static %}
+
+{% block title %}Dashboard{% endblock %}
+
+{% block content %}
+<div class="dashboard-wrapper">
+    <!-- Section: Resident Requests and Events -->
+    <div class="row">
+        <div class="row g-4 align-items-stretch">
+            <!-- Resident Requests -->
+            <div class="col-md-7">
+                <div class="card shadow-sm h-100">
+                    <div class="card-header bg-primary text-white">
+                        <i class="bi bi-file-earmark-text"></i> Latest Resident Requests
+                    </div>
+                    <div class="card-body d-flex flex-column">
+                        {% include 'adminpanel/requests/recent.html' %}
+                    </div>
+                </div>
+            </div>
+
+            <!-- Events Calendar -->
+            <div class="col-md-5">
+                <div class="card shadow-sm h-100">
+                    <div class="card-header bg-success text-white">
+                        <a href="{% url 'event_list' %}" class="text-white">
+                            <i class="bi bi-calendar-event"></i>
+                             Calendar
+                        </a>
+                    </div>
+                    <div class="card-body d-flex flex-column">
+                        <div id="calendar" class="flex-grow-1 p-2 rounded shadow-sm"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Section: Resident Directory Map -->
+    <div class="card mt-4 shadow-sm">
+        <div class="card-header bg-info text-white">
+            <i class="bi bi-geo-alt-fill"></i> Barangay Resident Map
+        </div>
+        <div class="card-body">
+            <div id="map" style="height: 300px;"></div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<!-- FullCalendar JS -->
+<script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/index.global.min.js"></script>
+
+<!-- Bootstrap Tooltip Enabler -->
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    const tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+    tooltipTriggerList.map(function (tooltipTriggerEl) {
+      return new bootstrap.Tooltip(tooltipTriggerEl);
+    });
+  });
+</script>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    const calendarEl = document.getElementById('calendar');
+
+    const calendar = new FullCalendar.Calendar(calendarEl, {
+      initialView: 'dayGridMonth',
+      height: 350,
+      firstDay: 0,
+
+      headerToolbar: {
+        left: 'prev today next',
+        center: 'title',
+        right: 'dayGridMonth,listMonth'
+      },
+
+      buttonIcons: {
+        prev: 'chevron-left',
+        next: 'chevron-right'
+      },
+
+      buttonText: {
+        today: 'Today',
+        dayGridMonth: '',
+        listMonth: ''
+      },
+
+      events: '/api/events/',
+
+      eventDidMount: function (info) {
+        let tooltip = new bootstrap.Tooltip(info.el, {
+          title: `${info.event.title} - ${info.event.start.toLocaleString()}`,
+          placement: 'top',
+          trigger: 'hover',
+          container: 'body'
+        });
+      },
+
+      eventClick: function (info) {
+        alert('Event: ' + info.event.title + '\n' + new Date(info.event.start).toLocaleString());
+        info.jsEvent.preventDefault();
+      },
+
+      // Customize icons for month/list toggle using innerHTML hack
+      customButtons: {
+        dayGridMonth: {
+          text: '',
+          icon: 'bi-calendar-event',
+          click: function () {
+            calendar.changeView('dayGridMonth');
+          }
+        },
+        listMonth: {
+          text: '',
+          icon: 'bi-list-task',
+          click: function () {
+            calendar.changeView('listMonth');
+          }
+        }
+      }
+    });
+
+    calendar.render();
+
+    // Replace text buttons with icons after render
+    const rightButtons = calendarEl.querySelector('.fc-toolbar .fc-toolbar-chunk:last-child');
+    if (rightButtons) {
+      const monthBtn = rightButtons.querySelector('.fc-dayGridMonth-button');
+      const listBtn = rightButtons.querySelector('.fc-listMonth-button');
+      if (monthBtn) monthBtn.innerHTML = `<i class="bi bi-calendar-event"></i>`;
+      if (listBtn) listBtn.innerHTML = `<i class="bi bi-list-task"></i>`;
+    }
+  });
+</script>
+
+
+
+<!-- Leaflet JS for the map -->
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script>
+  // Coordinates for Bonbon, Cebu City (approximate center)
+  var bonbonCoords = [10.4022, 123.7818];
+
+  // Initialize the map
+  var map = L.map('map').setView(bonbonCoords, 13);
+
+  // Add OpenStreetMap tiles
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    attribution: '&copy; OpenStreetMap contributors'
+  }).addTo(map);
+
+  // Add a marker for Bonbon
+  L.marker(bonbonCoords).addTo(map)
+    .bindPopup("<b>Barangay Bonbon</b><br>Cebu City")
+    .openPopup();
+</script>
+{% endblock %}

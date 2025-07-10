@@ -1,0 +1,29 @@
+{% extends 'adminpanel/base.html' %}
+{% block title %}{{ action }} Event{% endblock %}
+
+{% block content %}
+<div class="container py-4">
+    <h3 class="mb-4">{{ action }} Event</h3>
+    <form method="post">
+        {% csrf_token %}
+        <div class="mb-3">
+            <label class="form-label">Title</label>
+            <input type="text" name="title" value="{{ event.title|default_if_none:'' }}" class="form-control" required>
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Description</label>
+            <textarea name="description" class="form-control" rows="4" required>{{ event.description|default_if_none:'' }}</textarea>
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Event Date & Time</label>
+            <input type="datetime-local" name="event_date" value="{{ event.event_date|default_if_none:'' }}" class="form-control" required>
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Location</label>
+            <input type="text" name="location" value="{{ event.location|default_if_none:'' }}" class="form-control" required>
+        </div>
+        <button type="submit" class="btn btn-success">Save</button>
+        <a href="{% url 'event_list' %}" class="btn btn-secondary">Cancel</a>
+    </form>
+</div>
+{% endblock %}

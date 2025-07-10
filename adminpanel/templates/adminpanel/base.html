@@ -1,0 +1,71 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Barangay Portal | {% block title %}Admin Panel{% endblock %}</title>
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
+    <!-- FullCalendar (for calendar integration) -->
+    <link href="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/index.global.min.css" rel="stylesheet">
+    <!-- Leaflet (for map integration) -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    {% block extra_head %}{% endblock %}
+</head>
+<body class="bg-light">
+
+    <!-- Top Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm px-4">
+        <a class="navbar-brand d-flex align-items-center" href="{% url 'dashboard' %}">
+            <img src="{% static 'logo/logo.png' %}" alt="Logo" width="36" height="36" class="me-2">
+            <strong>Barangay Portal</strong>
+        </a>
+
+        <div class="ms-auto d-flex align-items-center">
+            <!-- Notification Icon -->
+            <a href="{% url 'announcement_list' %}" class="btn btn-light position-relative me-3" title="Announcements">
+                <i class="bi bi-bell-fill fs-5 text-primary"></i>
+            </a>
+
+            {% if request.session.admin_username %}
+                <div class="dropdown">
+                    <button class="btn btn-outline-dark dropdown-toggle" type="button" id="profileDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                        <i class="bi bi-person-circle me-1"></i>{{ request.session.admin_username }}
+                    </button>
+                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="profileDropdown">
+                        <li><a class="dropdown-item" href="#"><i class="bi bi-person-lines-fill me-2"></i> My Profile</a></li>
+                        <li><a class="dropdown-item" href="#"><i class="bi bi-shield-lock-fill me-2"></i> Change Password</a></li>
+                        <li><a class="dropdown-item" href="#"><i class="bi bi-gear me-2"></i> System Preferences</a></li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li><a class="dropdown-item text-danger" href="{% url 'logout' %}"><i class="bi bi-box-arrow-right me-2"></i> Logout</a></li>
+                    </ul>
+                </div>
+            {% endif %}
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="container py-4">
+        {% block content %}{% endblock %}
+    </div>
+
+    <!-- Footer -->
+    <footer class="text-center text-muted py-3 border-top">
+        <small>© {{ year|default:"2025" }} Barangay Information Portal. Built with 💙 for the community.</small>
+    </footer>
+
+    <!-- JS Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- FullCalendar & Leaflet JS -->
+    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/index.global.min.js"></script>
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    {% block extra_js %}{% endblock %}
+</body>
+</html>

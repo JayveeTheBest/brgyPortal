@@ -1,0 +1,191 @@
+/* General Layout */
+body {
+    font-family: 'Segoe UI', sans-serif;
+    background: linear-gradient(135deg, #e0f7fa, #e1f5fe);
+    min-height: 100vh;
+}
+
+.navbar-brand strong {
+    font-size: 1.2rem;
+    color: #0277bd;
+}
+
+.container {
+    max-width: 1200px;
+}
+
+/* Cards & Panels */
+.card {
+    border-radius: 12px;
+    border: none;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.05);
+    transition: transform 0.2s ease;
+}
+
+.card:hover {
+    transform: scale(1.01);
+}
+
+.card-header {
+    font-weight: 600;
+    background-color: #fafafa;
+}
+
+/* Badges */
+.badge {
+    font-size: 0.75rem;
+    padding: 0.35em 0.65em;
+    border-radius: 6px;
+}
+
+.badge.bg-warning {
+    background-color: #ffeb3b !important;
+    color: #000;
+}
+
+.badge.bg-success {
+    background-color: #4caf50 !important;
+}
+
+.badge.bg-primary {
+    background-color: #2196f3 !important;
+}
+
+.badge.bg-danger {
+    background-color: #f44336 !important;
+}
+
+/* Section Cards */
+.section-card {
+    padding: 1.2rem;
+    transition: box-shadow 0.2s ease;
+}
+
+.section-card:hover {
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+}
+
+.section-icon {
+    font-size: 1.8rem;
+    color: #0288d1;
+}
+
+/* Calendar & Map Containers */
+#eventCalendar,
+#residentMap {
+    height: 100%;
+    min-height: 400px;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.05);
+}
+
+a {
+    text-decoration: none;
+}
+#calendar {
+  background-color: #ffffff;
+  border-radius: 12px;
+  padding: 1rem;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+  font-family: 'Segoe UI', sans-serif;
+  color: #333;
+  transition: all 0.3s ease-in-out;
+}
+
+.fc-toolbar-title {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #1b5e20;
+}
+
+.fc-button {
+  background-color: #2e7d32 !important;
+  border: none !important;
+  padding: 5px 12px !important;
+  font-weight: 500;
+  border-radius: 6px !important;
+  text-transform: capitalize !important;
+}
+
+.fc-button-primary:not(:disabled):hover {
+  background-color: #1b5e20 !important;
+}
+
+.fc .fc-daygrid-day-number {
+  font-weight: 500;
+  color: #0288d1;
+}
+
+.fc-event {
+  background-color: #0288d1;
+  border: none;
+  font-size: 0.85rem;
+  padding: 2px 4px;
+  border-radius: 4px;
+  color: white;
+}
+
+.fc-event:hover {
+  filter: brightness(1.1);
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+
+/* Optional: tighter spacing and centered controls */
+.fc .fc-toolbar-title {
+  font-size: 1.1rem;
+  font-weight: 600;
+}
+
+.fc-toolbar.fc-header-toolbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.fc-toolbar .fc-button {
+  padding: 0.35rem 0.6rem;
+  font-size: 0.9rem;
+}
+
+.fc-dayGridMonth-button {
+  margin-right: 5px !important;
+}
+
+
+/* Utility */
+.table-sm th,
+.table-sm td {
+    vertical-align: middle;
+    font-size: 0.875rem;
+}
+
+.table-hover tbody tr:hover {
+    background-color: #f1faff;
+}
+
+.stretched-link::after {
+    position: absolute;
+    inset: 0;
+    content: "";
+}
+
+/* Footer */
+footer {
+    font-size: 0.8rem;
+}
+
+/* Responsive Fixes */
+@media (max-width: 768px) {
+    .navbar-brand strong {
+        font-size: 1rem;
+    }
+    .card-header,
+    .table-sm th {
+        font-size: 0.9rem;
+    }
+    .section-icon {
+        font-size: 1.5rem;
+    }
+}
